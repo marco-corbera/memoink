@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import type { Note } from "@/types/note"
+import { getCategoryName } from "@/lib/utils"
 
 interface CategorySidebarProps {
   notes?: Note[]
@@ -37,10 +38,7 @@ export function CategorySidebar({ notes = [] }: CategorySidebarProps) {
             >
             <div className="flex items-center">
               <span className={cn("w-2 h-2 rounded-full mr-2", CATEGORY_COLORS[category])} />
-              {category === "RDM" && "Random Thought"}
-              {category === "PSL" && "Personal"}
-              {category === "SCL" && "School"}
-              {category === "DRM" && "Drama"}
+              {getCategoryName(category)}
             </div>
             {notes.length > 0 && <span className="text-sm text-memoink-button/70">{getCategoryCount(category)}</span>}
             </Link>

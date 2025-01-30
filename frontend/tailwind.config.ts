@@ -74,6 +74,10 @@ const config: Config = {
     "bg-category-school",
     "bg-category-drama",
     "bg-category-personal",
+    "border-category-randomThoughts",
+    "border-category-school",
+    "border-category-personal",
+    "border-category-drama",
   ],
   plugins: [require("tailwindcss-animate")],
 }

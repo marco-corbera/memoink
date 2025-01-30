@@ -10,7 +10,7 @@ export const CATEGORY_COLORS = {
 } as const
 
 export const CATEGORY_COLORS_BORDER = {
-  "RDM": "border-category-random-thoughts",
+  "RDM": "border-category-randomThoughts",
   "SCL": "border-category-school",
   "PSL": "border-category-personal",
   "DRM": "border-category-drama",

@@ -1,8 +1,8 @@
 "use client"
 
 import type { Note, Category } from "@/types/note"
-import { CATEGORIES, CATEGORY_COLORS } from "@/lib/constants"
-import { cn } from "@/lib/utils"
+import { CATEGORIES, CATEGORY_COLORS, CATEGORY_COLORS_BORDER } from "@/lib/constants"
+import { cn, getCategoryName } from "@/lib/utils"
 import { X } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useState, useEffect, useCallback } from "react"
@@ -49,6 +49,9 @@ export function NoteEditor({ note: initialNote, onClose, onUpdate }: NoteEditorP
   }
 
   const formatLastEdited = (date: Date) => {
+    if (typeof(date) === "string") {
+      date = new Date(date)
+    }
     return date.toLocaleString("en-US", {
       month: "long",
       day: "numeric",
@@ -60,63 +63,60 @@ export function NoteEditor({ note: initialNote, onClose, onUpdate }: NoteEditorP
   }
 
   return (
-    <div className="fixed inset-0 z-50 p-8 bg-black/20 backdrop-blur-sm">
+    <div className="w-full h-full bg-memoink-background">
+      <div className="flex w-full justify-between">
+        <Select
+          value={note.category}
+          onValueChange={(value: Category) => handleChange({ category: value })}
+        >
+          <SelectTrigger className="border border-memoink-text bg-memoink-background text-sm rounded-[6px] py-2 w-[225px]">
+            <div className="flex items-center gap-2">
+              <SelectValue />
+            </div>
+          </SelectTrigger>
+          <SelectContent>
+            {CATEGORIES.map((category) => (
+              <SelectItem key={category} value={category}>
+          <div className="flex items-center gap-2">
+            <span className={cn("w-3 h-3 rounded-full", CATEGORY_COLORS[category])} />
+            {getCategoryName(category)}
+          </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <button
+          onClick={onClose}
+          className="text-memoink-button hover:bg-memoink-button/10 p-2 rounded-full transition-colors"
+        >
+          <X className="w-6 h-6" />
+        </button>
+      </div>
+
       <div
         className={cn(
-          "w-full max-w-5xl mx-auto h-[calc(100vh-4rem)] rounded-3xl overflow-hidden",
+          "w-full h-auto bg-white rounded-[11px] shadow-md bg-opacity-50 p-8",
+          `border-[3px] ${CATEGORY_COLORS_BORDER[note.category]}`,
           CATEGORY_COLORS[note.category],
         )}
       >
-        <div className="p-6 space-y-8">
-          <div className="flex items-center justify-between">
-            <Select
-              value={note.category}
-              onValueChange={(value: Category) => handleChange({ category: value })}
-            >
-              <SelectTrigger className="w-48 border-memoink-button">
-                <div className="flex items-center gap-2">
-                  <span className={cn("w-2 h-2 rounded-full", CATEGORY_COLORS[note.category])} />
-                  <SelectValue />
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                {CATEGORIES.map((category) => (
-                  <SelectItem key={category} value={category}>
-                    <div className="flex items-center gap-2">
-                      <span className={cn("w-2 h-2 rounded-full", CATEGORY_COLORS[category])} />
-                      {category}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-memoink-text/70">Last Edited: {formatLastEdited(note.lastEdited)}</span>
-              <button
-                onClick={onClose}
-                className="text-memoink-button hover:bg-memoink-button/5 p-2 rounded-full transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
+        <div className="flex flex-col h-full">
+          <div className="mt-4 text-xs text-black self-end">
+            Last Edited: {formatLastEdited(note.lastEdited)}
           </div>
-
-          <div className="space-y-4">
-            <input
-              type="text"
-              value={note.title}
-              onChange={(e) => handleChange({ title: e.target.value })}
-              placeholder="Note Title"
-              className="w-full text-4xl font-serif text-[#1A1A1A] bg-transparent border-none outline-none placeholder:text-[#1A1A1A]/40"
-            />
-            <textarea
-              value={note.content}
-              onChange={(e) => handleChange({ content: e.target.value })}
-              placeholder="Pour your heart out..."
-              className="w-full h-[calc(100vh-280px)] bg-transparent border-none outline-none resize-none text-[#1A1A1A]/80 placeholder:text-[#1A1A1A]/40"
-            />
-          </div>
+          <input
+            type="text"
+            value={note.title}
+            onChange={(e) => handleChange({ title: e.target.value })}
+            placeholder="Note Title"
+            className="w-full text-4xl font-serif text-black bg-transparent border-none outline-none placeholder:text-memoink-text/40"
+          />
+          <textarea
+            value={note.content}
+            onChange={(e) => handleChange({ content: e.target.value })}
+            placeholder="Pour your heart out..."
+            className="flex-1 bg-transparent text-black/80 placeholder:text-black/40 border-none outline-none resize-none leading-relaxed"
+          />
         </div>
       </div>
     </div>

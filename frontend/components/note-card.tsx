@@ -2,6 +2,7 @@ import type { Note } from "@/types/note"
 import { formatDate } from "@/utils/date"
 import { CATEGORY_COLORS } from "@/lib/constants"
 import { cn } from "@/lib/utils"
+import { getCategoryName } from "@/lib/utils"
 
 interface NoteCardProps {
   note: Note
@@ -22,10 +23,7 @@ export function NoteCard({ note, onClick }: NoteCardProps) {
           <span className="font-medium">{formatDate(note.lastEdited)}</span>
           <span className="text-memoink-text/60">·</span>
           <span>
-            {note.category === "RDM" && "Random Thought"}
-            {note.category === "PSL" && "Personal"}
-            {note.category === "SCL" && "School"}
-            {note.category === "DRM" && "Drama"}
+            {getCategoryName(note.category)}
           </span>
         </div>
         <h3 className="text-2xl font-serif text-[#1A1A1A] leading-tight">{note.title}</h3>
