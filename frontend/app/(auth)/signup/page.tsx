@@ -3,23 +3,38 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import SleepingCat from "@/public/sleeping-cat.svg"
 import { signup } from "@/services/auth"
+import { login } from "@/services/auth"
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
+  const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter()
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError("")
+    setSuccess("")
+    setLoading(true)
+
     try {
       await signup({ email, password, username: email })
-      console.log("Signup successful")
+      setSuccess("Account created successfully! Redirecting...")
+
+      setTimeout(async () => {
+        await login({ email, password })
+        router.push("/notes")
+      }, 1500)
     } catch (err) {
       setError("Signup failed. Please try again.")
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -59,11 +74,13 @@ export default function SignUpPage() {
             </div>
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
+          {success && <p className="text-green-500 text-sm">{success}</p>}
           <button
             type="submit"
-            className="w-full h-12 rounded-full border border-memoink-text text-memoink-text hover:bg-memoink-text hover:text-white transition-colors duration-200"
+            disabled={loading}
+            className="w-full h-12 rounded-full border border-memoink-text text-memoink-text hover:bg-memoink-text hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Sign Up
+            {loading ? "Creating account..." : "Sign Up"}
           </button>
         </form>
         <p className="text-center">
