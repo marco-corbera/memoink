@@ -4,8 +4,10 @@ from apps.notes.models import Note
 from apps.notes.serializers import NotePreviewSerializer, NoteDetailSerializer
 
 class NoteViewSet(ModelViewSet):
-    queryset = Note.objects.all().order_by("-last_edited")
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Note.objects.filter(user=self.request.user).order_by("-last_edited")
 
     def get_serializer_class(self):
         if self.action == "list":

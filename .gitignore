@@ -1,2 +1,57 @@
 *.pyc
 __pycache__/
+
+# Node.js (Frontend)
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/*.log
+frontend/*.tsbuildinfo
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/junit.xml
+frontend/.env
+frontend/.env.prod
+
+# Django (Backend)
+backend/*.pyc
+backend/*.pyo
+backend/*.pyd
+backend/djangoapp/backendapp/__pycache__/
+backend/**/*.pyc
+backend/**/*.pyo
+backend/**/*.pyd
+backend/db.sqlite3
+backend/media/
+backend/staticfiles/
+backend/*.log
+backend/*.pot
+backend/.env.prod
+backend/.env
+db.sqlite3
+
+# Pyenv (Python version manager)
+backend/.python-version
+
+# VS Code
+.vscode/
+
+# Mac system files
+.DS_Store
+
+# Python virtualenv
+backend/venv/
+backend/env/
+backend/.venv/
+
+# Docker
+docker-compose.override.yml
+
+.env
+*.env.*
+
+# Build files
+/build/

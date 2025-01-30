@@ -16,7 +16,7 @@ export default function SignUpPage() {
     e.preventDefault()
     setError("")
     try {
-      await signup({ email, password, username: email.split("@")[0] })
+      await signup({ email, password, username: email })
       console.log("Signup successful")
     } catch (err) {
       setError("Signup failed. Please try again.")
