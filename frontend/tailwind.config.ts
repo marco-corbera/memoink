@@ -19,7 +19,7 @@ const config: Config = {
           "button-hover": "#8B6832",
         },
         category: {
-          "random-thoughts": "#EF9C66",
+          randomThoughts: "#EF9C66",
           school: "#FCDC94",
           drama: "#C8CFA0",
           personal: "#78ABA8",
@@ -63,8 +63,18 @@ const config: Config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      spacing: {
+        '62': '15.5rem',
+        '76': '19rem',
+      },
     },
   },
+  safelist: [
+    "bg-category-randomThoughts",
+    "bg-category-school",
+    "bg-category-drama",
+    "bg-category-personal",
+  ],
   plugins: [require("tailwindcss-animate")],
 }
 

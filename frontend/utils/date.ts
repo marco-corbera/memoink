@@ -1,17 +1,18 @@
 export function formatDate(date: Date): string {
+  const inputDate = new Date(date)
   const now = new Date()
   const yesterday = new Date(now)
   yesterday.setDate(yesterday.getDate() - 1)
 
-  if (isSameDay(date, now)) {
+  if (isSameDay(inputDate, now)) {
     return "today"
   }
 
-  if (isSameDay(date, yesterday)) {
+  if (isSameDay(inputDate, yesterday)) {
     return "yesterday"
   }
 
-  return date.toLocaleDateString("en-US", {
+  return inputDate.toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
   })

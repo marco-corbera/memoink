@@ -6,6 +6,7 @@ import { NoteEditor } from "@/components/note-editor"
 import { Plus } from "lucide-react"
 import type { Note, Category } from "@/types/note"
 import Image from "next/image"
+import EmptyCup from "@/public/empty-cup.svg"
 
 export default function CategoryPage({
   params,
@@ -78,7 +79,7 @@ export default function CategoryPage({
       {filteredNotes.length === 0 ? (
         <div className="text-center space-y-6 mt-20">
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-scWu2iKPAFmMUcSmDKHD8efop1ofsA.png"
+            src={EmptyCup}
             alt="Cute bubble tea illustration"
             width={300}
             height={300}

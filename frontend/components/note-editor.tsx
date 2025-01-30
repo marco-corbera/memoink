@@ -5,7 +5,9 @@ import { CATEGORIES, CATEGORY_COLORS } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 import { X } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
+import { debounce } from "lodash"
+import { updateNote } from "@/services/notes"
 
 interface NoteEditorProps {
   note: Note
@@ -15,14 +17,36 @@ interface NoteEditorProps {
 
 export function NoteEditor({ note: initialNote, onClose, onUpdate }: NoteEditorProps) {
   const [note, setNote] = useState(initialNote)
+  const [hasChanges, setHasChanges] = useState(false)
+
+  const debouncedUpdate = useCallback(
+    debounce(async (updatedNote: Note) => {
+      try {
+        const savedNote = await updateNote(updatedNote.id, {
+          title: updatedNote.title,
+          content: updatedNote.content,
+          category: updatedNote.category,
+        })
+        onUpdate(savedNote)
+        setHasChanges(false)
+      } catch (error) {
+        console.error("Error updating note:", error)
+      }
+    }, 500),
+    [onUpdate]
+  )
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      onUpdate(note)
-    }, 500)
+    if (hasChanges) {
+      debouncedUpdate(note)
+    }
+    return () => debouncedUpdate.cancel()
+  }, [note, hasChanges, debouncedUpdate])
 
-    return () => clearTimeout(timer)
-  }, [note, onUpdate])
+  const handleChange = (changes: Partial<Note>) => {
+    setNote((prev) => ({ ...prev, ...changes, lastEdited: new Date() }))
+    setHasChanges(true)
+  }
 
   const formatLastEdited = (date: Date) => {
     return date.toLocaleString("en-US", {
@@ -47,13 +71,7 @@ export function NoteEditor({ note: initialNote, onClose, onUpdate }: NoteEditorP
           <div className="flex items-center justify-between">
             <Select
               value={note.category}
-              onValueChange={(value: Category) => {
-                setNote((prev) => ({
-                  ...prev,
-                  category: value,
-                  lastEdited: new Date(),
-                }))
-              }}
+              onValueChange={(value: Category) => handleChange({ category: value })}
             >
               <SelectTrigger className="w-48 border-memoink-button">
                 <div className="flex items-center gap-2">
@@ -88,25 +106,13 @@ export function NoteEditor({ note: initialNote, onClose, onUpdate }: NoteEditorP
             <input
               type="text"
               value={note.title}
-              onChange={(e) => {
-                setNote((prev) => ({
-                  ...prev,
-                  title: e.target.value,
-                  lastEdited: new Date(),
-                }))
-              }}
+              onChange={(e) => handleChange({ title: e.target.value })}
               placeholder="Note Title"
               className="w-full text-4xl font-serif text-[#1A1A1A] bg-transparent border-none outline-none placeholder:text-[#1A1A1A]/40"
             />
             <textarea
               value={note.content}
-              onChange={(e) => {
-                setNote((prev) => ({
-                  ...prev,
-                  content: e.target.value,
-                  lastEdited: new Date(),
-                }))
-              }}
+              onChange={(e) => handleChange({ content: e.target.value })}
               placeholder="Pour your heart out..."
               className="w-full h-[calc(100vh-280px)] bg-transparent border-none outline-none resize-none text-[#1A1A1A]/80 placeholder:text-[#1A1A1A]/40"
             />
@@ -116,4 +122,3 @@ export function NoteEditor({ note: initialNote, onClose, onUpdate }: NoteEditorP
     </div>
   )
 }
-

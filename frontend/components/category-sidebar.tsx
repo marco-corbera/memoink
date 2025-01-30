@@ -27,20 +27,23 @@ export function CategorySidebar({ notes = [] }: CategorySidebarProps) {
           All Categories
         </Link>
         {CATEGORIES.map((category) => (
-          <Link
+            <Link
             key={category}
             href={`/notes/${category.toLowerCase().replace(" ", "-")}`}
             className={cn(
               "flex items-center justify-between px-4 py-2 rounded-lg text-memoink-button",
               pathname === `/notes/${category.toLowerCase().replace(" ", "-")}` && "font-medium",
             )}
-          >
+            >
             <div className="flex items-center">
               <span className={cn("w-2 h-2 rounded-full mr-2", CATEGORY_COLORS[category])} />
-              {category}
+              {category === "RDM" && "Random Thought"}
+              {category === "PSL" && "Personal"}
+              {category === "SCL" && "School"}
+              {category === "DRM" && "Drama"}
             </div>
             {notes.length > 0 && <span className="text-sm text-memoink-button/70">{getCategoryCount(category)}</span>}
-          </Link>
+            </Link>
         ))}
       </nav>
     </div>

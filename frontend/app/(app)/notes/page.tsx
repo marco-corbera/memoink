@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { NoteCard } from "@/components/note-card"
 import { NoteEditor } from "@/components/note-editor"
 import { Plus } from "lucide-react"
@@ -15,11 +15,12 @@ export default function NotesPage() {
   const [activeNote, setActiveNote] = useState<Note | null>(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
+  const pathname = usePathname()
 
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const fetchedNotes = await getNotes() as Note[]
+        const fetchedNotes = (await getNotes()) as Note[]
         setNotes(fetchedNotes)
       } catch (error) {
         console.error("Failed to fetch notes", error)
@@ -30,9 +31,17 @@ export default function NotesPage() {
     fetchNotes()
   }, [])
 
+  useEffect(() => {
+    if (activeNote) {
+      router.push(`/notes/${activeNote.id}`)
+    } else if (pathname !== "/notes") {
+      router.push("/notes")
+    }
+  }, [activeNote, router, pathname])
+
   const handleCreateNote = async () => {
     try {
-      const newNote = await createNote({ title: "New Note", content: "", category: "RDM" }) as Note
+      const newNote = (await createNote({ title: "New Note", content: "", category: "RDM" })) as Note
       setNotes((prev) => [newNote, ...prev])
       setActiveNote(newNote)
     } catch (error) {
@@ -66,14 +75,23 @@ export default function NotesPage() {
           <p className="text-xl text-memoink-text">I'm just here waiting for your charming notes...</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {Array.isArray(notes) && notes.map((note) => (
-            <NoteCard key={note.id} note={note} onClick={() => setActiveNote(note)} />
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[60vh] overflow-y-auto">
+          {Array.isArray(notes) &&
+            notes.map((note) => (
+              <NoteCard key={note.id} note={note} onClick={() => setActiveNote(note)} />
+            ))}
         </div>
       )}
 
-      {activeNote && <NoteEditor note={activeNote} onClose={() => setActiveNote(null)} onUpdate={(updatedNote) => setNotes((prev) => prev.map((note) => (note.id === updatedNote.id ? updatedNote : note)))} />}
+      {activeNote && (
+        <NoteEditor
+          note={activeNote}
+          onClose={() => setActiveNote(null)}
+          onUpdate={(updatedNote) =>
+            setNotes((prev) => prev.map((note) => (note.id === updatedNote.id ? updatedNote : note)))
+          }
+        />
+      )}
     </div>
   )
 }
