@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import { NoteCard } from "@/components/note-card"
-import { NoteEditor } from "@/components/note-editor"
 import { CategorySidebar } from "@/components/category-sidebar"
 import { Plus } from "lucide-react"
 import type { Note } from "@/types/note"
