@@ -1,21 +1,43 @@
+"use client"
+
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import SleepingCat from "@/public/sleeping-cat.svg"
+import { signup } from "@/services/auth"
 
 export default function SignUpPage() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+
+  const handleSignUp = async (e) => {
+    e.preventDefault()
+    setError("")
+    try {
+      await signup({ email, password, username: email.split("@")[0] })
+      console.log("Signup successful")
+    } catch (err) {
+      setError("Signup failed. Please try again.")
+    }
+  }
+
   return (
     <main className="min-h-screen bg-memoink-background flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center space-y-6">
-          <Image src="/placeholder.svg" alt="Cute sleeping cat" width={120} height={120} className="mx-auto" />
+          <Image src={SleepingCat} alt="Cute sleeping cat" width={188} height={134} className="mx-auto" />
           <h1 className="text-4xl font-serif text-memoink-text">Yay, New Friend!</h1>
         </div>
-
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSignUp}>
           <div>
             <input
               type="email"
               placeholder="Email address"
               className="w-full h-12 px-4 rounded border border-memoink-text/20 bg-transparent placeholder:text-memoink-text/60 text-memoink-text focus:outline-none focus:ring-1 focus:ring-memoink-text/20"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           <div>
@@ -23,8 +45,12 @@ export default function SignUpPage() {
               type="password"
               placeholder="Password"
               className="w-full h-12 px-4 rounded border border-memoink-text/20 bg-transparent placeholder:text-memoink-text/60 text-memoink-text focus:outline-none focus:ring-1 focus:ring-memoink-text/20"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
           <button
             type="submit"
             className="w-full h-12 rounded-full border border-memoink-text text-memoink-text hover:bg-memoink-text hover:text-white transition-colors duration-200"
@@ -32,7 +58,6 @@ export default function SignUpPage() {
             Sign Up
           </button>
         </form>
-
         <p className="text-center">
           <Link href="/login" className="text-memoink-text hover:opacity-80 transition-opacity">
             We&apos;re already friends!
@@ -42,4 +67,3 @@ export default function SignUpPage() {
     </main>
   )
 }
-

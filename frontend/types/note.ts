@@ -1,4 +1,4 @@
-export type Category = "Random Thoughts" | "School" | "Personal" | "Drama"
+export type Category = "RDM" | "SCL" | "PSL" | "DRM"
 
 export interface Note {
   id: string

@@ -1,61 +1,50 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { NoteCard } from "@/components/note-card"
 import { NoteEditor } from "@/components/note-editor"
 import { Plus } from "lucide-react"
 import type { Note } from "@/types/note"
 import Image from "next/image"
+import { getNotes, createNote } from "@/services/notes"
+import EmptyCup from "@/public/empty-cup.svg"
 
 export default function NotesPage() {
-  const [notes, setNotes] = useState<Note[]>([
-    {
-      id: "1",
-      title: "Grocery List",
-      content: "• Milk\n• Eggs\n• Bread\n• Bananas\n• Spinach",
-      category: "Random Thoughts",
-      lastEdited: new Date(),
-    },
-    {
-      id: "2",
-      title: "Meeting with Team",
-      content:
-        "Discuss project timeline and milestones.\nReview budget and resource allocation.\nAddress any blockers and plan next steps.",
-      category: "School",
-      lastEdited: new Date(Date.now() - 24 * 60 * 60 * 1000), // yesterday
-    },
-    {
-      id: "3",
-      title: "Project X Updates",
-      content:
-        "Finalized design mockups and received approval from stakeholders. Began development on the front-end. Backend integration is scheduled for next week. Team is on track to meet the deadline.",
-      category: "School",
-      lastEdited: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000), // 4 days ago
-    },
-  ])
+  const [notes, setNotes] = useState<Note[]>([])
   const [activeNote, setActiveNote] = useState<Note | null>(null)
+  const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
-  const createNewNote = () => {
-    const newNote: Note = {
-      id: Math.random().toString(36).substr(2, 9),
-      title: "Note Title",
-      content: "",
-      category: "Random Thoughts",
-      lastEdited: new Date(),
+  useEffect(() => {
+    const fetchNotes = async () => {
+      try {
+        const fetchedNotes = await getNotes() as Note[]
+        setNotes(fetchedNotes)
+      } catch (error) {
+        console.error("Failed to fetch notes", error)
+      } finally {
+        setLoading(false)
+      }
     }
-    setNotes((prev) => [newNote, ...prev])
-    setActiveNote(newNote)
-  }
+    fetchNotes()
+  }, [])
 
-  const updateNote = (updatedNote: Note) => {
-    setNotes((prev) => prev.map((note) => (note.id === updatedNote.id ? updatedNote : note)))
+  const handleCreateNote = async () => {
+    try {
+      const newNote = await createNote({ title: "New Note", content: "", category: "RDM" }) as Note
+      setNotes((prev) => [newNote, ...prev])
+      setActiveNote(newNote)
+    } catch (error) {
+      console.error("Failed to create note", error)
+    }
   }
 
   return (
     <div className="w-full max-w-7xl mx-auto">
       <div className="flex justify-end mb-6">
         <button
-          onClick={createNewNote}
+          onClick={handleCreateNote}
           className="flex items-center px-4 py-2 rounded-full border border-memoink-text text-memoink-text hover:bg-memoink-text hover:text-white transition-colors duration-200"
         >
           <Plus className="w-5 h-5 mr-2" />
@@ -63,10 +52,12 @@ export default function NotesPage() {
         </button>
       </div>
 
-      {notes.length === 0 ? (
+      {loading ? (
+        <div className="text-center mt-20 text-memoink-text">Loading notes...</div>
+      ) : notes.length === 0 ? (
         <div className="text-center space-y-6 mt-20">
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-scWu2iKPAFmMUcSmDKHD8efop1ofsA.png"
+            src={EmptyCup}
             alt="Cute bubble tea illustration"
             width={300}
             height={300}
@@ -76,14 +67,13 @@ export default function NotesPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {notes.map((note) => (
+          {Array.isArray(notes) && notes.map((note) => (
             <NoteCard key={note.id} note={note} onClick={() => setActiveNote(note)} />
           ))}
         </div>
       )}
 
-      {activeNote && <NoteEditor note={activeNote} onClose={() => setActiveNote(null)} onUpdate={updateNote} />}
+      {activeNote && <NoteEditor note={activeNote} onClose={() => setActiveNote(null)} onUpdate={(updatedNote) => setNotes((prev) => prev.map((note) => (note.id === updatedNote.id ? updatedNote : note)))} />}
     </div>
   )
 }
-
