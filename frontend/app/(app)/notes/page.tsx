@@ -52,10 +52,8 @@ export default function NotesPage() {
 
   return (
     <div className="flex w-full max-w-7xl mx-auto">
-      {/* Sidebar */}
       <CategorySidebar notes={notes} />
 
-      {/* Main Content */}
       <div className="flex-1 p-6">
         <div className="flex justify-end mb-6">
           <button
@@ -87,16 +85,6 @@ export default function NotesPage() {
                 <NoteCard key={note.id} note={note} onClick={() => setActiveNote(note)} />
               ))}
           </div>
-        )}
-
-        {activeNote && (
-          <NoteEditor
-            note={activeNote}
-            onClose={() => setActiveNote(null)}
-            onUpdate={(updatedNote) =>
-              setNotes((prev) => prev.map((note) => (note.id === updatedNote.id ? updatedNote : note)))
-            }
-          />
         )}
       </div>
     </div>
