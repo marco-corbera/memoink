@@ -1,0 +1,8 @@
+<svg width="13" height="6" viewBox="0 0 13 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Eyelid Open -->
+  <path d="M1 3C2 1 4 0 6.5 0C9 0 11 1 12 3" stroke="#957139" stroke-width="0.8" stroke-linecap="round"/>
+  <!-- Eyeball -->
+  <circle cx="6.5" cy="3" r="1.2" fill="#957139"/>
+  <!-- Lower Lid -->
+  <path d="M1 3C2 5 4 6 6.5 6C9 6 11 5 12 3" stroke="#957139" stroke-width="0.8" stroke-linecap="round"/>
+</svg>

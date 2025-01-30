@@ -12,6 +12,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -49,15 +50,22 @@ export default function LoginPage() {
               required
             />
           </div>
-          <div>
+          <div className="relative">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
               className="w-full h-12 px-4 rounded border border-memoink-text/20 bg-transparent placeholder:text-memoink-text/60 text-memoink-text focus:outline-none focus:ring-1 focus:ring-memoink-text/20"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? (
+                <Image src="/opened-eye.svg" alt="Opened eye" width={24} height={24} />
+              ) : (
+                <Image src="/closed-eye.svg" alt="Closed eye" width={24} height={24} />
+              )}
+            </div>
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <button
