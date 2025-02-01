@@ -114,7 +114,7 @@ export function NoteEditor({
 
       <div
         className={cn(
-          'w-full h-auto bg-white rounded-[11px] shadow-md bg-opacity-50 p-8',
+          'w-full h-full bg-white rounded-[11px] shadow-md bg-opacity-50 p-8',
           `border-[3px] ${CATEGORY_COLORS_BORDER[note.category]}`,
           CATEGORY_COLORS[note.category]
         )}
