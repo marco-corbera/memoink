@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NoteCard matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="p-6 rounded-2xl cursor-pointer h-96 w-full overflow-hidden bg-category-personal"
+  >
+    <div
+      class="space-y-3"
+    >
+      <div
+        class="flex items-center gap-2 text-sm"
+      >
+        <span
+          class="font-medium"
+        >
+          today
+        </span>
+        <span
+          class="text-memoink-text/60"
+        >
+          ·
+        </span>
+        <span>
+          Personal
+        </span>
+      </div>
+      <h3
+        class="text-2xl font-serif text-[#1A1A1A] leading-tight"
+      >
+        Sample Note
+      </h3>
+      <div
+        class="text-[#1A1A1A]/80 overflow-hidden"
+      >
+        <p
+          class="line-clamp-3 overflow-hidden"
+        >
+          This is a sample note content.
+        </p>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

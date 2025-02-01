@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CategorySidebar matches snapshot 1`] = `
+<DocumentFragment>
+  <button
+    class="md:hidden fixed top-4 left-4 z-50 bg-memoink-background p-2 rounded-md"
+  >
+    <svg
+      class="lucide lucide-menu w-6 h-6 text-memoink"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <line
+        x1="4"
+        x2="20"
+        y1="12"
+        y2="12"
+      />
+      <line
+        x1="4"
+        x2="20"
+        y1="6"
+        y2="6"
+      />
+      <line
+        x1="4"
+        x2="20"
+        y1="18"
+        y2="18"
+      />
+    </svg>
+  </button>
+  <div
+    class="w-80 p-6 bg-memoink-background fixed md:static top-0 left-0 h-full md:h-auto z-50 transition-transform -translate-x-full md:translate-x-0"
+  >
+    <div
+      class="flex justify-end md:hidden"
+    >
+      <button
+        class="p-2"
+      >
+        <svg
+          class="lucide lucide-x w-6 h-6 text-black"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 6 6 18"
+          />
+          <path
+            d="m6 6 12 12"
+          />
+        </svg>
+      </button>
+    </div>
+    <nav
+      class="space-y-2"
+    >
+      <a
+        class="block px-4 py-2 rounded-lg text-black font-bold"
+        href="/notes"
+      >
+        All Categories
+      </a>
+      <a
+        class="flex items-center justify-between px-4 py-2 rounded-lg text-black"
+        href="/notes/category/RDM"
+      >
+        <div
+          class="flex items-center"
+        >
+          <span
+            class="w-2 h-2 rounded-full mr-2 bg-category-randomThoughts"
+          />
+          Random Thought
+        </div>
+        <span
+          class="text-sm text-black/70"
+        >
+          0
+        </span>
+      </a>
+      <a
+        class="flex items-center justify-between px-4 py-2 rounded-lg text-black"
+        href="/notes/category/SCL"
+      >
+        <div
+          class="flex items-center"
+        >
+          <span
+            class="w-2 h-2 rounded-full mr-2 bg-category-school"
+          />
+          School
+        </div>
+        <span
+          class="text-sm text-black/70"
+        >
+          0
+        </span>
+      </a>
+      <a
+        class="flex items-center justify-between px-4 py-2 rounded-lg text-black"
+        href="/notes/category/PSL"
+      >
+        <div
+          class="flex items-center"
+        >
+          <span
+            class="w-2 h-2 rounded-full mr-2 bg-category-personal"
+          />
+          Personal
+        </div>
+        <span
+          class="text-sm text-black/70"
+        >
+          0
+        </span>
+      </a>
+      <a
+        class="flex items-center justify-between px-4 py-2 rounded-lg text-black"
+        href="/notes/category/DRM"
+      >
+        <div
+          class="flex items-center"
+        >
+          <span
+            class="w-2 h-2 rounded-full mr-2 bg-category-drama"
+          />
+          Drama
+        </div>
+        <span
+          class="text-sm text-black/70"
+        >
+          0
+        </span>
+      </a>
+    </nav>
+  </div>
+</DocumentFragment>
+`;

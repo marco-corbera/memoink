@@ -28,4 +28,16 @@ describe('CategorySidebar', () => {
     expect(await screen.findByText('Drama')).toBeInTheDocument();
     expect(await screen.findByText('Personal')).toBeInTheDocument();
   });
+
+  it('matches snapshot', async () => {
+    const { asFragment } = render(<CategorySidebar />);
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('displays category counts correctly', async () => {
+    render(<CategorySidebar />);
+
+    expect(await screen.findByText('5')).toBeInTheDocument();
+    expect(await screen.findByText('3')).toBeInTheDocument();
+  });
 });
