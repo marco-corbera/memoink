@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NoteEditor matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="w-full h-full bg-memoink-background"
+  >
+    <div
+      class="flex w-full justify-between"
+    >
+      <button
+        aria-autocomplete="none"
+        aria-controls="radix-:r0:"
+        aria-expanded="false"
+        class="flex h-9 items-center justify-between whitespace-nowrap px-3 shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 border border-memoink-text bg-memoink-background text-sm rounded-[6px] py-2 w-[225px]"
+        data-state="closed"
+        dir="ltr"
+        role="combobox"
+        type="button"
+      >
+        <div
+          class="flex items-center gap-2"
+        >
+          <span
+            style="pointer-events: none;"
+          >
+            <div
+              class="flex items-center gap-2"
+            >
+              <span
+                class="w-3 h-3 rounded-full bg-category-personal"
+              />
+              Personal
+            </div>
+          </span>
+        </div>
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-chevron-down h-4 w-4 opacity-50"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="m6 9 6 6 6-6"
+          />
+        </svg>
+      </button>
+      <button
+        class="text-memoink-button hover:bg-memoink-button/10 p-2 rounded-full transition-colors"
+      >
+        <svg
+          class="lucide lucide-x w-6 h-6"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 6 6 18"
+          />
+          <path
+            d="m6 6 12 12"
+          />
+        </svg>
+      </button>
+    </div>
+    <div
+      class="w-full h-auto rounded-[11px] shadow-md bg-opacity-50 p-8 border-[3px] border-category-personal bg-category-personal"
+    >
+      <div
+        class="flex flex-col h-full"
+      >
+        <div
+          class="mt-4 text-xs text-black self-end"
+        >
+          Last Edited: February 1, 2025 at 8:30 AM
+        </div>
+        <input
+          class="w-full text-4xl font-serif text-black bg-transparent border-none outline-none placeholder:text-memoink-text/40"
+          placeholder="Note Title"
+          type="text"
+          value="Sample Note"
+        />
+        <textarea
+          class="flex-1 bg-transparent text-black/80 placeholder:text-black/40 border-none outline-none resize-none leading-relaxed"
+          placeholder="Pour your heart out..."
+        >
+          This is a sample note content.
+        </textarea>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
