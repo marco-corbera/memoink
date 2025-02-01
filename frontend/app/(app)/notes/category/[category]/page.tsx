@@ -1,102 +1,100 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useRouter, usePathname } from "next/navigation"
 import { NoteCard } from "@/components/note-card"
 import { NoteEditor } from "@/components/note-editor"
+import { CategorySidebar } from "@/components/category-sidebar"
 import { Plus } from "lucide-react"
-import type { Note, Category } from "@/types/note"
+import type { Note } from "@/types/note"
 import Image from "next/image"
+import { getNotes, createNote } from "@/services/notes"
 import EmptyCup from "@/public/empty-cup.svg"
 
-export default function CategoryPage({
-  params,
-}: {
-  params: { category: string }
-}) {
-  const [notes, setNotes] = useState<Note[]>([
-    {
-      id: "1",
-      title: "Grocery List",
-      content: "• Milk\n• Eggs\n• Bread\n• Bananas\n• Spinach",
-      category: "Random Thoughts",
-      lastEdited: new Date(),
-    },
-    {
-      id: "2",
-      title: "Vacation Ideas",
-      content:
-        "• Visit Bali for beaches and culture\n• Explore the historic sites in Rome\n• Go hiking in the Swiss Alps\n• Relax in the hot springs of Iceland",
-      category: "Random Thoughts",
-      lastEdited: new Date(Date.now() - 24 * 60 * 60 * 1000), // yesterday
-    },
-    {
-      id: "3",
-      title: "A Deep and Contemplative Personal Reflection on the Multifaceted and Ever-Evolving Journey of Life",
-      content:
-        "Life has been a whirlwind of events and emotions lately. I've been juggling work, personal projects, and relationships, often finding myself at crossroads of important decisions.",
-      category: "Random Thoughts",
-      lastEdited: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000), // 4 days ago
-    },
-  ])
+export default function CategoryPage() {
+  const pathname = usePathname()
+  const category = pathname.split("/").pop() || ""
+  const [notes, setNotes] = useState<Note[]>([])
   const [activeNote, setActiveNote] = useState<Note | null>(null)
+  const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
-  // Convert URL-friendly category name back to proper format
-  const categoryName = params.category
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ") as Category
-
-  const filteredNotes = notes.filter((note) => note.category === categoryName)
-
-  const createNewNote = () => {
-    const newNote: Note = {
-      id: Math.random().toString(36).substr(2, 9),
-      title: "Note Title",
-      content: "",
-      category: categoryName,
-      lastEdited: new Date(),
+  useEffect(() => {
+    const fetchNotes = async () => {
+      try {
+        const fetchedNotes = await getNotes({ category }) as Note[]
+        setNotes(fetchedNotes)
+      } catch (error) {
+        console.error("Failed to fetch notes", error)
+      } finally {
+        setLoading(false)
+      }
     }
-    setNotes((prev) => [newNote, ...prev])
-    setActiveNote(newNote)
-  }
+    fetchNotes()
+  }, [category])
 
-  const updateNote = (updatedNote: Note) => {
-    setNotes((prev) => prev.map((note) => (note.id === updatedNote.id ? updatedNote : note)))
+  useEffect(() => {
+    if (activeNote) {
+      router.push(`/notes/${activeNote.id}`)
+    }
+  }, [activeNote, router])
+
+  const handleCreateNote = async () => {
+    try {
+      const newNote = (await createNote({ title: "New Note", content: "", category: category.toUpperCase() })) as Note
+      setNotes((prev) => [newNote, ...prev])
+      setActiveNote(newNote)
+    } catch (error) {
+      console.error("Failed to create note", error)
+    }
   }
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <div className="flex justify-end mb-6">
-        <button
-          onClick={createNewNote}
-          className="flex items-center px-4 py-2 rounded-full border border-memoink-button text-memoink-button hover:bg-memoink-button/5 transition-colors"
-        >
-          <Plus className="w-5 h-5 mr-2" />
-          New Note
-        </button>
+    <div className="flex w-full max-w-7xl mx-auto">
+      <CategorySidebar />
+
+      <div className="flex-1 p-6">
+        <div className="flex justify-end mb-6">
+          <button
+            onClick={handleCreateNote}
+            className="flex items-center px-4 py-2 rounded-full border border-memoink-text text-memoink-text hover:bg-memoink-text hover:text-white transition-colors duration-200"
+          >
+            <Plus className="w-5 h-5 mr-2" />
+            New Note
+          </button>
+        </div>
+
+        {loading ? (
+          <div className="text-center mt-20 text-memoink-text">Loading notes...</div>
+        ) : notes.length === 0 ? (
+          <div className="text-center space-y-6 mt-20">
+            <Image
+              src={EmptyCup}
+              alt="Cute bubble tea illustration"
+              width={300}
+              height={300}
+              className="mx-auto"
+            />
+            <p className="text-xl text-memoink-text">No notes in this category yet...</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[60vh] overflow-y-auto">
+            {notes.map((note) => (
+              <NoteCard key={note.id} note={note} onClick={() => setActiveNote(note)} />
+            ))}
+          </div>
+        )}
       </div>
 
-      {filteredNotes.length === 0 ? (
-        <div className="text-center space-y-6 mt-20">
-          <Image
-            src={EmptyCup}
-            alt="Cute bubble tea illustration"
-            width={300}
-            height={300}
-            className="mx-auto"
-          />
-          <p className="text-xl text-memoink-text">No notes in this category yet...</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredNotes.map((note) => (
-            <NoteCard key={note.id} note={note} onClick={() => setActiveNote(note)} />
-          ))}
-        </div>
+      {activeNote && (
+        <NoteEditor
+          note={activeNote}
+          onClose={() => setActiveNote(null)}
+          onUpdate={(updatedNote) =>
+            setNotes((prev) => prev.map((note) => (note.id === updatedNote.id ? updatedNote : note)))
+          }
+        />
       )}
-
-      {activeNote && <NoteEditor note={activeNote} onClose={() => setActiveNote(null)} onUpdate={updateNote} />}
     </div>
   )
 }
-

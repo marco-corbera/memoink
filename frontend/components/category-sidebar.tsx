@@ -1,47 +1,58 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { CATEGORIES, CATEGORY_COLORS } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import type { Note } from "@/types/note"
+import { useSearchParams } from "next/navigation"
+import { getCategorySummary } from "@/services/notes"
 import { getCategoryName } from "@/lib/utils"
 
-interface CategorySidebarProps {
-  notes?: Note[]
-}
+export function CategorySidebar() {
+  const searchParams = useSearchParams()
+  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({})
 
-export function CategorySidebar({ notes = [] }: CategorySidebarProps) {
-  const pathname = usePathname()
+  useEffect(() => {
+    const fetchCategoryCounts = async () => {
+      try {
+        const summary = await getCategorySummary()
+        const counts = summary.reduce((acc, { category, count }) => {
+          acc[category] = count
+          return acc
+        }, {} as Record<string, number>)
+        setCategoryCounts(counts)
+      } catch (error) {
+        console.error("Failed to fetch category counts", error)
+      }
+    }
 
-  const getCategoryCount = (category: string) => {
-    return notes.filter((note) => note.category === category).length
-  }
+    fetchCategoryCounts()
+  }, [])
 
   return (
     <div className="w-64 p-6">
       <nav className="space-y-2">
         <Link
           href="/notes"
-          className={cn("block px-4 py-2 rounded-lg text-memoink-button", pathname === "/notes" && "font-medium")}
+          className={cn("block px-4 py-2 rounded-lg text-memoink-button", !searchParams.get("category") && "font-medium")}
         >
           All Categories
         </Link>
         {CATEGORIES.map((category) => (
-            <Link
+          <Link
             key={category}
-            href={`/notes/${category.toLowerCase().replace(" ", "-")}`}
+            href={`/notes/category/${category}`}
             className={cn(
               "flex items-center justify-between px-4 py-2 rounded-lg text-memoink-button",
-              pathname === `/notes/${category.toLowerCase().replace(" ", "-")}` && "font-medium",
+              searchParams.get("category") === category && "font-medium"
             )}
-            >
+          >
             <div className="flex items-center">
               <span className={cn("w-2 h-2 rounded-full mr-2", CATEGORY_COLORS[category])} />
               {getCategoryName(category)}
             </div>
-            {notes.length > 0 && <span className="text-sm text-memoink-button/70">{getCategoryCount(category)}</span>}
-            </Link>
+            <span className="text-sm text-memoink-button/70">{categoryCounts[category] || 0}</span>
+          </Link>
         ))}
       </nav>
     </div>

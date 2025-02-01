@@ -9,10 +9,17 @@ const toCamelCase = (note: any) => ({
   isArchived: note.is_archived,
 })
 
-export const getNotes = async () => {
+export const getNotes = async ({ category }: { category?: string } = {}) => {
   type NoteResponse = { id: string; title: string; content: string; category: string; last_edited: string; is_archived: boolean }
-  const response: NoteResponse[] = await apiFetch("/notes/", { auth: true })
+  const queryParams = category ? `?category=${category}` : ""
+  const response: NoteResponse[] = await apiFetch(`/notes/${queryParams}`, { auth: true })
   return response.map(toCamelCase)
+}
+
+export const getCategorySummary = async () => {
+  type SummaryResponse = { category: string; count: number }[]
+  const response: SummaryResponse = await apiFetch("/notes/summary/", { auth: true })
+  return response
 }
 
 export const createNote = async (data: { title: string; content: string; category: string }) => {
