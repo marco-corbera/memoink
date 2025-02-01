@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
-import { useEffect, useState } from "react"
-import { useRouter, useParams } from "next/navigation"
-import { NoteEditor } from "@/components/NoteEditor"
-import type { Note } from "@/types/note"
-import { getNote } from "@/services/notes"
+import { useEffect, useState } from 'react'
+import { useRouter, useParams } from 'next/navigation'
+import { NoteEditor } from '@/components/NoteEditor'
+import type { Note } from '@/types/note'
+import { getNote } from '@/services/notes'
 
 export default function NoteDetailPage() {
   const [activeNote, setActiveNote] = useState<Note | null>(null)
@@ -18,8 +18,8 @@ export default function NoteDetailPage() {
           const fetchedNote = (await getNote(id as string)) as Note
           setActiveNote(fetchedNote)
         } catch (error) {
-          console.error("Failed to fetch note", error)
-          router.push("/notes")
+          console.error('Failed to fetch note', error)
+          router.push('/notes')
         }
       }
     }
@@ -33,7 +33,7 @@ export default function NoteDetailPage() {
   return (
     <NoteEditor
       note={activeNote}
-      onClose={() => router.push("/notes")}
+      onClose={() => router.push('/notes')}
       onUpdate={(updatedNote) => setActiveNote(updatedNote)}
     />
   )

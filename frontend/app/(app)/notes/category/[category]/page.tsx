@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
-import { usePathname } from "next/navigation"
-import { NotesPageContent } from "@/components/NotesPageContent"
+import { usePathname } from 'next/navigation'
+import { NotesPageContent } from '@/components/NotesPageContent'
 
 export default function CategoryPage() {
   const pathname = usePathname()
-  const category = pathname.split("/").pop() || ""
+  const category = pathname.split('/').pop() || ''
   return <NotesPageContent category={category} />
 }

@@ -1,13 +1,12 @@
-import { redirect } from "next/navigation"
+import { redirect } from 'next/navigation'
 
 export default function Home() {
   // TODO: Implement actual authentication check
   const isLoggedIn = false
 
   if (isLoggedIn) {
-    redirect("/notes")
+    redirect('/notes')
   } else {
-    redirect("/signup")
+    redirect('/signup')
   }
 }
-

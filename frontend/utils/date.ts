@@ -5,16 +5,16 @@ export function formatDate(date: Date): string {
   yesterday.setDate(yesterday.getDate() - 1)
 
   if (isSameDay(inputDate, now)) {
-    return "today"
+    return 'today'
   }
 
   if (isSameDay(inputDate, yesterday)) {
-    return "yesterday"
+    return 'yesterday'
   }
 
-  return inputDate.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
+  return inputDate.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
   })
 }
 
@@ -25,4 +25,3 @@ function isSameDay(date1: Date, date2: Date): boolean {
     date1.getFullYear() === date2.getFullYear()
   )
 }
-

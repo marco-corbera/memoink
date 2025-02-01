@@ -1,14 +1,14 @@
-"use client"
+'use client'
 
-import { useEffect, useState } from "react"
-import { useRouter, usePathname } from "next/navigation"
-import { NoteCard } from "@/components/NoteCard"
-import { CategorySidebar } from "@/components/CategorySidebar"
-import { Plus } from "lucide-react"
-import type { Note } from "@/types/note"
-import Image from "next/image"
-import { getNotes, createNote } from "@/services/notes"
-import EmptyCup from "@/public/empty-cup.svg"
+import { useEffect, useState } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
+import { NoteCard } from '@/components/NoteCard'
+import { CategorySidebar } from '@/components/CategorySidebar'
+import { Plus } from 'lucide-react'
+import type { Note } from '@/types/note'
+import Image from 'next/image'
+import { getNotes, createNote } from '@/services/notes'
+import EmptyCup from '@/public/empty-cup.svg'
 
 interface NotesPageContentProps {
   category?: string
@@ -23,10 +23,10 @@ export function NotesPageContent({ category }: NotesPageContentProps) {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const fetchedNotes = await getNotes({ category }) as Note[]
+        const fetchedNotes = (await getNotes({ category })) as Note[]
         setNotes(fetchedNotes)
       } catch (error) {
-        console.error("Failed to fetch notes", error)
+        console.error('Failed to fetch notes', error)
       } finally {
         setLoading(false)
       }
@@ -42,11 +42,15 @@ export function NotesPageContent({ category }: NotesPageContentProps) {
 
   const handleCreateNote = async () => {
     try {
-      const newNote = (await createNote({ title: "New Note", content: "", category: category?.toUpperCase() || "RDM" })) as Note
+      const newNote = (await createNote({
+        title: 'New Note',
+        content: '',
+        category: category?.toUpperCase() || 'RDM',
+      })) as Note
       setNotes((prev) => [newNote, ...prev])
       setActiveNote(newNote)
     } catch (error) {
-      console.error("Failed to create note", error)
+      console.error('Failed to create note', error)
     }
   }
 
@@ -66,7 +70,9 @@ export function NotesPageContent({ category }: NotesPageContentProps) {
         </div>
 
         {loading ? (
-          <div className="text-center mt-20 text-memoink-text">Loading notes...</div>
+          <div className="text-center mt-20 text-memoink-text">
+            Loading notes...
+          </div>
         ) : notes.length === 0 ? (
           <div className="text-center space-y-6 mt-20">
             <Image
@@ -76,12 +82,18 @@ export function NotesPageContent({ category }: NotesPageContentProps) {
               height={300}
               className="mx-auto"
             />
-            <p className="text-xl text-memoink-text">No notes in this category yet...</p>
+            <p className="text-xl text-memoink-text">
+              No notes in this category yet...
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[80vh] overflow-y-auto">
             {notes.map((note) => (
-              <NoteCard key={note.id} note={note} onClick={() => setActiveNote(note)} />
+              <NoteCard
+                key={note.id}
+                note={note}
+                onClick={() => setActiveNote(note)}
+              />
             ))}
           </div>
         )}

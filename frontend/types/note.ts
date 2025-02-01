@@ -1,4 +1,4 @@
-export type Category = "RDM" | "SCL" | "PSL" | "DRM"
+export type Category = 'RDM' | 'SCL' | 'PSL' | 'DRM'
 
 export interface Note {
   id: string
@@ -7,4 +7,3 @@ export interface Note {
   category: Category
   lastEdited: Date
 }
-

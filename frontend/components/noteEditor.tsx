@@ -1,13 +1,23 @@
-"use client"
+'use client'
 
-import type { Note, Category } from "@/types/note"
-import { CATEGORIES, CATEGORY_COLORS, CATEGORY_COLORS_BORDER } from "@/lib/constants"
-import { cn, getCategoryName } from "@/lib/utils"
-import { X } from "lucide-react"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useState, useEffect, useCallback } from "react"
-import { debounce } from "lodash"
-import { updateNote } from "@/services/notes"
+import type { Note, Category } from '@/types/note'
+import {
+  CATEGORIES,
+  CATEGORY_COLORS,
+  CATEGORY_COLORS_BORDER,
+} from '@/lib/constants'
+import { cn, getCategoryName } from '@/lib/utils'
+import { X } from 'lucide-react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { useState, useEffect, useCallback } from 'react'
+import { debounce } from 'lodash'
+import { updateNote } from '@/services/notes'
 
 interface NoteEditorProps {
   note: Note
@@ -15,7 +25,11 @@ interface NoteEditorProps {
   onUpdate: (note: Note) => void
 }
 
-export function NoteEditor({ note: initialNote, onClose, onUpdate }: NoteEditorProps) {
+export function NoteEditor({
+  note: initialNote,
+  onClose,
+  onUpdate,
+}: NoteEditorProps) {
   const [note, setNote] = useState(initialNote)
   const [hasChanges, setHasChanges] = useState(false)
 
@@ -30,7 +44,7 @@ export function NoteEditor({ note: initialNote, onClose, onUpdate }: NoteEditorP
         onUpdate(savedNote)
         setHasChanges(false)
       } catch (error) {
-        console.error("Error updating note:", error)
+        console.error('Error updating note:', error)
       }
     }, 500),
     [onUpdate]
@@ -49,15 +63,15 @@ export function NoteEditor({ note: initialNote, onClose, onUpdate }: NoteEditorP
   }
 
   const formatLastEdited = (date: Date) => {
-    if (typeof(date) === "string") {
+    if (typeof date === 'string') {
       date = new Date(date)
     }
-    return date.toLocaleString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
+    return date.toLocaleString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
       hour12: true,
     })
   }
@@ -77,10 +91,15 @@ export function NoteEditor({ note: initialNote, onClose, onUpdate }: NoteEditorP
           <SelectContent>
             {CATEGORIES.map((category) => (
               <SelectItem key={category} value={category}>
-          <div className="flex items-center gap-2">
-            <span className={cn("w-3 h-3 rounded-full", CATEGORY_COLORS[category])} />
-            {getCategoryName(category)}
-          </div>
+                <div className="flex items-center gap-2">
+                  <span
+                    className={cn(
+                      'w-3 h-3 rounded-full',
+                      CATEGORY_COLORS[category]
+                    )}
+                  />
+                  {getCategoryName(category)}
+                </div>
               </SelectItem>
             ))}
           </SelectContent>
@@ -95,9 +114,9 @@ export function NoteEditor({ note: initialNote, onClose, onUpdate }: NoteEditorP
 
       <div
         className={cn(
-          "w-full h-auto bg-white rounded-[11px] shadow-md bg-opacity-50 p-8",
+          'w-full h-auto bg-white rounded-[11px] shadow-md bg-opacity-50 p-8',
           `border-[3px] ${CATEGORY_COLORS_BORDER[note.category]}`,
-          CATEGORY_COLORS[note.category],
+          CATEGORY_COLORS[note.category]
         )}
       >
         <div className="flex flex-col h-full">

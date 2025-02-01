@@ -1,4 +1,4 @@
-import { apiFetch } from "@/services/api"
+import { apiFetch } from '@/services/api'
 
 const toCamelCase = (note: any) => ({
   id: note.id,
@@ -10,21 +10,36 @@ const toCamelCase = (note: any) => ({
 })
 
 export const getNotes = async ({ category }: { category?: string } = {}) => {
-  type NoteResponse = { id: string; title: string; content: string; category: string; last_edited: string; is_archived: boolean }
-  const queryParams = category ? `?category=${category}` : ""
-  const response: NoteResponse[] = await apiFetch(`/notes/${queryParams}`, { auth: true })
+  type NoteResponse = {
+    id: string
+    title: string
+    content: string
+    category: string
+    last_edited: string
+    is_archived: boolean
+  }
+  const queryParams = category ? `?category=${category}` : ''
+  const response: NoteResponse[] = await apiFetch(`/notes/${queryParams}`, {
+    auth: true,
+  })
   return response.map(toCamelCase)
 }
 
 export const getCategorySummary = async () => {
   type SummaryResponse = { category: string; count: number }[]
-  const response: SummaryResponse = await apiFetch("/notes/summary/", { auth: true })
+  const response: SummaryResponse = await apiFetch('/notes/summary/', {
+    auth: true,
+  })
   return response
 }
 
-export const createNote = async (data: { title: string; content: string; category: string }) => {
-  const response = await apiFetch("/notes/", {
-    method: "POST",
+export const createNote = async (data: {
+  title: string
+  content: string
+  category: string
+}) => {
+  const response = await apiFetch('/notes/', {
+    method: 'POST',
     body: JSON.stringify(data),
     auth: true,
   })
@@ -36,9 +51,12 @@ export const getNote = async (id: string) => {
   return toCamelCase(response)
 }
 
-export const updateNote = async (id: string, data: Partial<{ title: string; content: string; category: string }>) => {
+export const updateNote = async (
+  id: string,
+  data: Partial<{ title: string; content: string; category: string }>
+) => {
   const response = await apiFetch(`/notes/${id}/`, {
-    method: "PATCH",
+    method: 'PATCH',
     body: JSON.stringify(data),
     auth: true,
   })
