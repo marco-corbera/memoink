@@ -20,11 +20,9 @@ export default function LoginPage() {
     setError('')
     setLoading(true)
     try {
-      const response = await login({ email, password })
-      localStorage.setItem('access_token', response.access)
-      localStorage.setItem('refresh_token', response.refresh)
+      await login({ email, password })
       router.push('/notes')
-    } catch (err) {
+    } catch {
       setError('Invalid email or password. Please try again.')
     } finally {
       setLoading(false)

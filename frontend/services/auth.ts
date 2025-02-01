@@ -10,8 +10,12 @@ export const signup = (data: SignupPayload) =>
     body: JSON.stringify(data),
   })
 
-export const login = (data: LoginPayload) =>
-  apiFetch<AuthResponse>('/users/login/', {
+export const login = async (data: LoginPayload) => {
+  const response = await apiFetch<AuthResponse>('/users/login/', {
     method: 'POST',
     body: JSON.stringify(data),
   })
+  localStorage.setItem('accessToken', response.access)
+  localStorage.setItem('refreshToken', response.refresh)
+  return response
+}

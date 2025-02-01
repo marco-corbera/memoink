@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { CategorySidebar } from '@/components/CategorySidebar'
+import { CategorySidebar } from '@/components/categorySidebar'
 import { usePathname } from 'next/navigation'
 import { getCategorySummary } from '@/services/notes'
 

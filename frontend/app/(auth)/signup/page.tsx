@@ -31,7 +31,7 @@ export default function SignUpPage() {
         await login({ email, password })
         router.push('/notes')
       }, 1500)
-    } catch (err) {
+    } catch {
       setError('Signup failed. Please try again.')
     } finally {
       setLoading(false)
