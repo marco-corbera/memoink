@@ -50,7 +50,7 @@ export default function CategoryPage() {
   }
 
   return (
-    <div className="flex w-full max-w-7xl mx-auto">
+    <div className="flex w-full max-w-8xl mx-auto">
       <CategorySidebar />
 
       <div className="flex-1 p-6">
