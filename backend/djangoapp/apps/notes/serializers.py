@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from apps.notes.models import Note
 
+
 class NotePreviewSerializer(serializers.ModelSerializer):
     content = serializers.SerializerMethodField()
 
@@ -10,6 +11,7 @@ class NotePreviewSerializer(serializers.ModelSerializer):
 
     def get_content(self, obj):
         return obj.content[:100] + "..." if len(obj.content) > 100 else obj.content
+
 
 class NoteDetailSerializer(serializers.ModelSerializer):
     class Meta:

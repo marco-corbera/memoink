@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from apps.notes.views import NoteViewSet, CategorySummaryView
 
 router = DefaultRouter()
-router.register(r'notes', NoteViewSet, basename='note')
+router.register(r"notes", NoteViewSet, basename="note")
 
 urlpatterns = [
     path("notes/summary/", CategorySummaryView.as_view(), name="category-summary"),

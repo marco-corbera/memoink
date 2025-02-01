@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from apps.users.models import User
 from apps.users.serializers import UserSerializer, SignupSerializer
 
+
 class UserDetailView(RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -10,6 +11,7 @@ class UserDetailView(RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
 
 class SignupView(CreateAPIView):
     queryset = User.objects.all()

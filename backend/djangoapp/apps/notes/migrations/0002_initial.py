@@ -9,14 +9,18 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('notes', '0001_initial'),
-        ('users', '0001_initial'),
+        ("notes", "0001_initial"),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='note',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='notes', to='users.user'),
+            model_name="note",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="notes",
+                to="users.user",
+            ),
         ),
     ]

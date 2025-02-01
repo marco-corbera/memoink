@@ -1,0 +1,39 @@
+[tool.black]
+line-length = 88
+target-version = ["py37", "py38", "py39", "py310"]
+include = '\.pyi?$'
+extend-exclude = '''
+# A regex preceded with ^/ will apply only to files and directories
+# in the root of the project.
+^/backend/build/
+^/backend/dist/
+^/backend/\.eggs/
+^/backend/\.git/
+^/backend/\.hg/
+^/backend/\.mypy_cache/
+^/backend/\.nox/
+^/backend/\.tox/
+^/backend/\.venv/
+^/backend/venv/
+'''
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203"]  # for black compatibility
+exclude = [
+    "/backend/.git",
+    "/backend/__pycache__",
+    "/backend/build",
+    "/backend/dist",
+    "/backend/*.egg-info",
+    "/backend/.eggs",
+    "/backend/.tox",
+    "/backend/.venv",
+    "/backend/venv",
+]
+per-file-ignores = []
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+

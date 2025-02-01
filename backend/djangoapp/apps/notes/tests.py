@@ -1,5 +1,3 @@
-from django.test import TestCase
-
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from rest_framework.test import APIClient
@@ -9,16 +7,19 @@ from apps.notes.serializers import NoteDetailSerializer, NotePreviewSerializer
 
 User = get_user_model()
 
+
 class NoteModelTest(TestCase):
     """Tests for the Note model."""
 
     def setUp(self):
-        self.user = User.objects.create_user(username="testuser", email="test@example.com", password="password123")
+        self.user = User.objects.create_user(
+            username="testuser", email="test@example.com", password="password123"
+        )
         self.note = Note.objects.create(
             user=self.user,
             title="Test Note",
             content="This is a test note.",
-            category="RDM"
+            category="RDM",
         )
 
     def test_note_creation(self):
@@ -28,16 +29,19 @@ class NoteModelTest(TestCase):
         self.assertEqual(self.note.category, "RDM")
         self.assertEqual(self.note.user, self.user)
 
+
 class NoteSerializerTest(TestCase):
     """Tests for the Note serializers."""
 
     def setUp(self):
-        self.user = User.objects.create_user(username="testuser", email="test@example.com", password="password123")
+        self.user = User.objects.create_user(
+            username="testuser", email="test@example.com", password="password123"
+        )
         self.note = Note.objects.create(
             user=self.user,
             title="Test Note",
             content="This is a test note.",
-            category="RDM"
+            category="RDM",
         )
 
     def test_note_preview_serializer(self):
@@ -53,24 +57,21 @@ class NoteSerializerTest(TestCase):
         self.assertEqual(serializer.data["content"], "This is a test note.")
         self.assertEqual(serializer.data["category"], "RDM")
 
+
 class NoteViewSetTest(TestCase):
     """Tests for the NoteViewSet API."""
 
     def setUp(self):
         self.client = APIClient()
-        self.user = User.objects.create_user(username="testuser", email="test@example.com", password="password123")
+        self.user = User.objects.create_user(
+            username="testuser", email="test@example.com", password="password123"
+        )
         self.client.force_authenticate(user=self.user)
         self.note1 = Note.objects.create(
-            user=self.user,
-            title="Note 1",
-            content="Content 1",
-            category="RDM"
+            user=self.user, title="Note 1", content="Content 1", category="RDM"
         )
         self.note2 = Note.objects.create(
-            user=self.user,
-            title="Note 2",
-            content="Content 2",
-            category="PSL"
+            user=self.user, title="Note 2", content="Content 2", category="PSL"
         )
 
     def test_list_notes(self):
@@ -88,11 +89,7 @@ class NoteViewSetTest(TestCase):
 
     def test_create_note(self):
         """Test creating a note."""
-        payload = {
-            "title": "New Note",
-            "content": "New Content",
-            "category": "SCL"
-        }
+        payload = {"title": "New Note", "content": "New Content", "category": "SCL"}
         response = self.client.post("/api/notes/", payload)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Note.objects.count(), 3)
@@ -102,7 +99,7 @@ class NoteViewSetTest(TestCase):
         payload = {
             "title": "Updated Title",
             "content": "Updated Content",
-            "category": "PSL"
+            "category": "PSL",
         }
         response = self.client.put(f"/api/notes/{self.note1.id}/", payload)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -115,20 +112,32 @@ class NoteViewSetTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Note.objects.count(), 1)
 
+
 class CategorySummaryViewTest(TestCase):
     """Tests for the CategorySummaryView endpoint."""
 
     def setUp(self):
         self.client = APIClient()
-        self.user = User.objects.create_user(username="testuser", email="test@example.com", password="password123")
+        self.user = User.objects.create_user(
+            username="testuser", email="test@example.com", password="password123"
+        )
         self.client.force_authenticate(user=self.user)
-        Note.objects.create(user=self.user, title="Note 1", content="Content 1", category="RDM")
-        Note.objects.create(user=self.user, title="Note 2", content="Content 2", category="RDM")
-        Note.objects.create(user=self.user, title="Note 3", content="Content 3", category="SCL")
+        Note.objects.create(
+            user=self.user, title="Note 1", content="Content 1", category="RDM"
+        )
+        Note.objects.create(
+            user=self.user, title="Note 2", content="Content 2", category="RDM"
+        )
+        Note.objects.create(
+            user=self.user, title="Note 3", content="Content 3", category="SCL"
+        )
 
     def test_category_summary(self):
         """Test retrieving category summary."""
         response = self.client.get("/api/notes/summary/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        expected_summary = [{"category": "RDM", "count": 2}, {"category": "SCL", "count": 1}]
+        expected_summary = [
+            {"category": "RDM", "count": 2},
+            {"category": "SCL", "count": 1},
+        ]
         self.assertCountEqual(response.data, expected_summary)
