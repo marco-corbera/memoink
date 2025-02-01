@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter, useParams } from "next/navigation"
-import { NoteEditor } from "@/components/noteEditor"
+import { NoteEditor } from "@/components/NoteEditor"
 import type { Note } from "@/types/note"
 import { getNote } from "@/services/notes"
 

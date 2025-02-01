@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
-import { NoteCard } from "@/components/noteCard"
-import { CategorySidebar } from "@/components/categorySidebar"
+import { NoteCard } from "@/components/NoteCard"
+import { CategorySidebar } from "@/components/CategorySidebar"
 import { Plus } from "lucide-react"
 import type { Note } from "@/types/note"
 import Image from "next/image"
