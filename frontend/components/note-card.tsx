@@ -14,7 +14,7 @@ export function NoteCard({ note, onClick }: NoteCardProps) {
     <div
       onClick={onClick}
       className={cn(
-        "p-6 rounded-2xl cursor-pointer h-62 w-80 overflow-hidden",
+        "p-6 rounded-2xl cursor-pointer h-96 w-full overflow-hidden",
         CATEGORY_COLORS[note.category]
       )}
     >

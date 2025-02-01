@@ -78,23 +78,13 @@ export default function CategoryPage() {
             <p className="text-xl text-memoink-text">No notes in this category yet...</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[60vh] overflow-y-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[80vh] overflow-y-auto">
             {notes.map((note) => (
               <NoteCard key={note.id} note={note} onClick={() => setActiveNote(note)} />
             ))}
           </div>
         )}
       </div>
-
-      {activeNote && (
-        <NoteEditor
-          note={activeNote}
-          onClose={() => setActiveNote(null)}
-          onUpdate={(updatedNote) =>
-            setNotes((prev) => prev.map((note) => (note.id === updatedNote.id ? updatedNote : note)))
-          }
-        />
-      )}
     </div>
   )
 }

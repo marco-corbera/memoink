@@ -19,7 +19,7 @@ export default function NoteDetailPage() {
           setActiveNote(fetchedNote)
         } catch (error) {
           console.error("Failed to fetch note", error)
-          router.push("/notes") // Redirect to notes if fetching fails
+          router.push("/notes")
         }
       }
     }
@@ -27,7 +27,7 @@ export default function NoteDetailPage() {
   }, [id, router])
 
   if (!activeNote) {
-    return null // Or a loading spinner/message if preferred
+    return null
   }
 
   return (

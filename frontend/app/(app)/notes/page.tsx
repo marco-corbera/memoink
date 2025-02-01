@@ -78,7 +78,7 @@ export default function NotesPage() {
             <p className="text-xl text-memoink-text">I'm just here waiting for your charming notes...</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[60vh] overflow-y-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[80vh] overflow-y-auto">
             {Array.isArray(notes) &&
               notes.map((note) => (
                 <NoteCard key={note.id} note={note} onClick={() => setActiveNote(note)} />
