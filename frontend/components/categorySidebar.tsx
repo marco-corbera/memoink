@@ -12,7 +12,7 @@ import { Menu, X } from "lucide-react"
 export function CategorySidebar() {
   const pathname = usePathname()
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({})
-  const [isOpen, setIsOpen] = useState(false) // Estado para abrir/cerrar en mobile
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     const fetchCategoryCounts = async () => {
@@ -33,7 +33,6 @@ export function CategorySidebar() {
 
   return (
     <>
-      {/* Botón para abrir sidebar en mobile */}
       <button
         onClick={() => setIsOpen(true)}
         className="md:hidden fixed top-4 left-4 z-50 bg-memoink-background p-2 rounded-md"
@@ -41,7 +40,6 @@ export function CategorySidebar() {
         <Menu className="w-6 h-6 text-memoink" />
       </button>
 
-      {/* Overlay en mobile */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
@@ -49,14 +47,12 @@ export function CategorySidebar() {
         />
       )}
 
-      {/* Sidebar */}
       <div
         className={cn(
           "w-80 p-6 bg-memoink-background fixed md:static top-0 left-0 h-full md:h-auto z-50 transition-transform md:translate-x-0",
           isOpen ? "translate-x-0 shadow-lg" : "-translate-x-full md:translate-x-0"
         )}
       >
-        {/* Botón para cerrar en mobile */}
         <div className="flex justify-end md:hidden">
           <button onClick={() => setIsOpen(false)} className="p-2">
             <X className="w-6 h-6 text-black" />
@@ -80,7 +76,7 @@ export function CategorySidebar() {
                   "flex items-center justify-between px-4 py-2 rounded-lg text-black",
                   pathname === categoryPath && "font-bold"
                 )}
-                onClick={() => setIsOpen(false)} // Cierra el sidebar en mobile
+                onClick={() => setIsOpen(false)}
               >
                 <div className="flex items-center">
                   <span className={cn("w-2 h-2 rounded-full mr-2", CATEGORY_COLORS[category])} />
