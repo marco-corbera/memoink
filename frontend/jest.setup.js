@@ -1,2 +1,2 @@
-import React from "react"
-global.React = React
+const React = require('react');
+global.React = React;
