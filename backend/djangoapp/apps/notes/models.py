@@ -12,7 +12,7 @@ class Note(BaseModel):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notes")
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=1000)
     content = models.TextField(blank=True)
     category = models.CharField(max_length=3, choices=CATEGORY_CHOICES)
     last_edited = models.DateTimeField(auto_now=True)

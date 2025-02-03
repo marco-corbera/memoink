@@ -29,21 +29,13 @@ export function NoteCard({ note, onClick }: NoteCardProps) {
         </h3>
         <div className="text-[#1A1A1A]/80 overflow-hidden">
           {note.content.includes('•') ? (
-            <ul className="list-none space-y-1">
-              {note.content.split('\n').map(
-                (line, index) =>
-                  line.trim() && (
-                    <li key={index} className="line-clamp-1">
-                      {line.trim().slice(0, 100)}
-                      {line.trim().length > 100 && '...'}
-                    </li>
-                  )
-              )}
-            </ul>
+            <p className="whitespace-pre-line">
+              {note.content}
+            </p>
           ) : (
             <p className="line-clamp-3 overflow-hidden">
-              {note.content.slice(0, 300)}
-              {note.content.length > 300 && '...'}
+              {note.content.slice(0, 1000)}
+              {note.content.length > 500 && '...'}
             </p>
           )}
         </div>

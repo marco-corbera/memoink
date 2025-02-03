@@ -10,7 +10,7 @@ class NotePreviewSerializer(serializers.ModelSerializer):
         fields = ("id", "title", "category", "last_edited", "content")
 
     def get_content(self, obj):
-        return obj.content[:100] + "..." if len(obj.content) > 100 else obj.content
+        return obj.content[:1000] + "..." if len(obj.content) > 1000 else obj.content
 
 
 class NoteDetailSerializer(serializers.ModelSerializer):
