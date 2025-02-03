@@ -6,7 +6,7 @@ moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
 },
 transform: {
-    '^.+\\.(js|jsx|ts|tsx|mjs)$': ['babel-jest', { presets: ['@babel/preset-env'] }]
+    '^.+\.(js|jsx|ts|tsx|mjs)$': ['@swc/jest']
 },
 transformIgnorePatterns: [
     'node_modules/(?!(lucide-react|@babel/runtime)/)'
